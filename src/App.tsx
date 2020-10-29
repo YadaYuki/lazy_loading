@@ -1,7 +1,9 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Hoge from "./components/hoge/Hoge"
-import Fuga from "./components/fuga/Fuga"
+// import Hoge from "./components/hoge/Hoge";
+// import Fuga from "./components/fuga/Fuga";
+const Hoge = lazy(() => import("./components/hoge/Hoge"));
+const Fuga = lazy(() => import("./components/fuga/Fuga"));
 
 function App() {
   return (
@@ -16,21 +18,23 @@ function App() {
               <Link to="/fuga">fuga</Link>
             </li>
             <li>
-              <Link to="/">home</Link> 
+              <Link to="/">home</Link>
             </li>
           </ul>
         </nav>
         <Switch>
           <Route exact path="/hoge">
-            <Hoge />
+            <Suspense fallback={<div>Loading Hoge....</div>}>
+              <Hoge />
+            </Suspense>
           </Route>
           <Route exact path="/fuga">
-            <Fuga />
+            <Suspense fallback={<div>Loading Fuga...</div>}>
+              <Fuga />
+            </Suspense>
           </Route>
           <Route path="/">
-            <div>
-              Home
-            </div>
+            <div>Home</div>
           </Route>
         </Switch>
       </Router>
